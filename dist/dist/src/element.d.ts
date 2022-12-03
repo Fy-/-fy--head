@@ -4,7 +4,7 @@ export declare class ElProperty {
     constructor(key: string, value?: string);
     toString(): string;
 }
-type ElTag = 'meta' | 'link' | 'script' | 'title';
+type ElTag = "meta" | "link" | "script" | "title";
 export declare class El {
     tag: ElTag;
     properties: ElProperty[];

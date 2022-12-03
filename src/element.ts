@@ -1,4 +1,4 @@
-import { generateUUID } from './helpers';
+import { generateUUID } from "./helpers";
 
 export class ElProperty {
   key: string;
@@ -11,7 +11,7 @@ export class ElProperty {
     return this.value ? `${this.key}="${this.value}"` : this.key;
   }
 }
-type ElTag = 'meta' | 'link' | 'script' | 'title';
+type ElTag = "meta" | "link" | "script" | "title";
 
 export class El {
   tag: ElTag;
@@ -36,7 +36,7 @@ export class El {
     return generateUUID();
   }
   toStringProperties() {
-    let propertiesString = '';
+    let propertiesString = "";
     for (const property of this.properties) {
       propertiesString += ` ${property.toString()}`;
     }
@@ -44,13 +44,13 @@ export class El {
   }
   toString() {
     return `<${this.tag} ${this.toStringProperties()}>${
-      this.content ? this.content : ''
+      this.content ? this.content : ""
     }</${this.tag}>`;
   }
   toDom(doc: Document) {
     const el = doc.createElement(this.tag);
     for (const property of this.properties) {
-      el.setAttribute(property.key, property.value ? property.value : '');
+      el.setAttribute(property.key, property.value ? property.value : "");
     }
     if (this.content) {
       el.innerText = this.content;

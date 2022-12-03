@@ -1,5 +1,5 @@
-import type { App, Ref, ShallowReactive } from 'vue';
-import { El } from './element';
+import type { App, Ref, ShallowReactive } from "vue";
+import { El } from "./element";
 type MaybeRef<T> = T | Ref<T>;
 export interface FyHeadLazy {
     name?: string;
@@ -12,7 +12,7 @@ export interface FyHeadLazy {
     published?: string;
     modified?: string;
     keywords?: string;
-    type?: 'blog' | 'search' | 'article' | 'website';
+    type?: "blog" | "search" | "article" | "website";
     searchAction?: string;
     next?: string;
     prev?: string;
@@ -36,7 +36,7 @@ export declare class FyHead {
     addTitle(title: string): void;
     addScript(src: string, key?: string, nonce?: string, async?: boolean): void;
     addLink(rel: string, href: string, key?: string | undefined): void;
-    addMeta(value: string, content: string, type?: 'name' | 'property'): void;
+    addMeta(value: string, content: string, type?: "name" | "property"): void;
     renderHeadToString(): {
         headTags: string;
         htmlAttrs: string;
