@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "jsx": "preserve",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "declaration": true,
+      "outDir": "dist",
+      "baseUrl": "packages/fy-head/",
+      "allowJs": false,
+      "strict": true,
+      "noUnusedLocals": false,
+      "lib": ["esnext", "dom"],
+      "allowSyntheticDefaultImports": true,
+      "types": ["vite/client", "@types/node"],
+      "removeComments": true,
+      "noImplicitAny": false,
+      "composite": true,
+      "paths": {
+        //"@karpeleslab/fyvue/*": [
+        //  "./*"
+        //],
+      }
+    },
+
+    "include": [
+      "src/*.ts",
+      "src/*.d.ts",
+    ],
+    "exclude": [
+      "node_modules",
+    ]
+  }

@@ -1,0 +1,24 @@
+{
+    "name": "@fy-/head",
+    "version": "0.0.14",
+    "author": "Florian 'Fy' Gasquez <m@fy.to>",
+    "main": "dist/fyhead.js",
+    "module": "dist/fyhead.mjs",
+    "typings": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/fyhead.mjs",
+            "require": "./dist/fyhead.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "peerDependencies": {
+        "vue": "^3.2.45"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/KarpelesLab/fyvue/tree/fyhead/packages/fyhead"
+    },
+    "homepage": "https://github.com/KarpelesLab/fyvue/tree/fyhead/packages/fyhead",
+    "scripts": {}
+}
