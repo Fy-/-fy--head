@@ -1,6 +1,6 @@
 
 /**
- * @fy-/head v0.0.15
+ * @fy-/head v0.0.16
  * (c) 2022 Florian "Fy" Gasquez
  * Released under the MIT License
  */

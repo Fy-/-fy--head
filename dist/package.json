@@ -1,6 +1,6 @@
 {
     "name": "@fy-/head",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "author": "Florian 'Fy' Gasquez <m@fy.to>",
     "main": "dist/fyhead.js",
     "module": "dist/fyhead.mjs",
@@ -18,11 +18,11 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Fy-/fyhead/fyvue.git"
+        "url": "git+https://github.com/Fy-/fyhead.git"
     },
     "bugs": {
-        "url": "https://github.com/Fy-/fyhead/fyvue/issues"
+        "url": "https://github.com/Fy-/fyhead/issues"
     },
-    "homepage": "https://github.com/Fy-/fyhead/fyvue#readme",
+    "homepage": "https://github.com/Fy-/fyhead#readme",
     "scripts": {}
 }
