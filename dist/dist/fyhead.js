@@ -258,7 +258,6 @@ const useFyHead = () => {
         throw new Error("Did you apply app.use(fyhead)?");
     const __isBrowser__ = typeof window !== "undefined";
     const ctx = fyhead.setContext();
-    fyhead.injectFyHead();
     if (__isBrowser__) {
         vue.watchEffect(() => {
             fyhead.injectFyHead();

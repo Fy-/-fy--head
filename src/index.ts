@@ -9,7 +9,6 @@ const useFyHead = () => {
   const __isBrowser__ = typeof window !== "undefined";
 
   const ctx = fyhead.setContext();
-  fyhead.injectFyHead();
   if (__isBrowser__) {
     watchEffect(() => {
       fyhead.injectFyHead();
