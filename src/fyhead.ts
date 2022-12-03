@@ -113,9 +113,9 @@ export class FyHead {
   }
   renderHeadToString() {
     let headTags = "";
-    Object.values(this.elements).forEach((el) => {
+    for (const el of this.elements.values()) {
       headTags += `${el.toString()}\n`;
-    });
+    }
     const htmlAttrs = "";
     const bodyAttrs = "";
     const bodyTags = "";
