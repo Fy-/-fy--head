@@ -255,8 +255,9 @@ const useFyHead = () => {
     if (!fyhead)
         throw new Error("Did you apply app.use(fyhead)?");
     const __isBrowser__ = typeof window !== "undefined";
+    const ctx = fyhead.setContext();
+    fyhead.injectFyHead();
     if (__isBrowser__) {
-        const ctx = fyhead.setContext();
         watchEffect(() => {
             fyhead.injectFyHead();
         });
@@ -264,9 +265,6 @@ const useFyHead = () => {
             fyhead.reset(ctx);
             fyhead.injectFyHead();
         });
-    }
-    else {
-        fyhead.setContext();
     }
     return fyhead;
 };
