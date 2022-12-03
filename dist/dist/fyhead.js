@@ -267,6 +267,9 @@ const useFyHead = () => {
             fyhead.injectFyHead();
         });
     }
+    else {
+        fyhead.setContext();
+    }
     return fyhead;
 };
 const createFyHead = () => FyHead.createHead();

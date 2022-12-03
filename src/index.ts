@@ -17,6 +17,8 @@ const useFyHead = () => {
       fyhead.reset(ctx);
       fyhead.injectFyHead();
     });
+  } else {
+    fyhead.setContext();
   }
   return fyhead;
 };
