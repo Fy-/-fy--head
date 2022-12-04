@@ -18,12 +18,12 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Fy-/fyhead.git"
+        "url": "git+https://github.com/fyvue/head.git"
     },
     "bugs": {
-        "url": "https://github.com/Fy-/fyhead/issues"
+        "url": "https://github.com/fyvue/head/issues"
     },
-    "homepage": "https://github.com/Fy-/fyhead#readme",
+    "homepage": "https://github.com/fyvue/head#readme",
     "scripts": {
         "build": "rm -rf dist/ && rollup -c --bundleConfigAsCjs",
         "lint:check": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore"
