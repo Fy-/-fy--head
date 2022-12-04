@@ -183,10 +183,15 @@ export class FyHead {
       headCountEl.setAttribute("name", __fyHeadCount__);
       headCountEl.setAttribute("content", "0");
       document.head.append(headCountEl);
-
       for (const el of this.elements.values()) {
-        const elDom = el.toDom(document);
-        newElements.push(elDom);
+        if (el.tag === "title") {
+          if (el.content) {
+            document.title = el.content;
+          }
+        } else {
+          const elDom = el.toDom(document);
+          newElements.push(elDom);
+        }
       }
       newElements.forEach((n) => {
         document.head.insertBefore(n, headCountEl);
