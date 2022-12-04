@@ -5,27 +5,6 @@ import { El, ElProperty } from "./element";
 
 const __fyHeadCount__ = "fyhead:count";
 
-export interface FyHeadLazy {
-  name?: string;
-  title?: string;
-  image?: string;
-  imageType?: string;
-  imageWidth?: string;
-  imageHeight?: string;
-  description?: string;
-  published?: string;
-  modified?: string;
-  keywords?: string;
-  type?: "blog" | "search" | "article" | "website";
-  searchAction?: string;
-  next?: string;
-  prev?: string;
-  canonical?: string;
-  locale?: string;
-  robots?: string;
-  url?: string;
-}
-
 // Inspired by @vueuse/head
 export type MaybeRef<T> = T | Ref<T>;
 
