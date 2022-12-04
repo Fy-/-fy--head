@@ -1,5 +1,5 @@
 import type { Ref } from "vue";
-import { inject, onBeforeUnmount, watchEffect, watch, ref } from "vue";
+import { inject, onBeforeUnmount, watchEffect, ref } from "vue";
 import { FyHead } from "./fyhead";
 import type { FyHeadObject, FyHeadObjectPlain, MaybeRef } from "./fyhead";
 import type { El } from "./element";
