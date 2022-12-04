@@ -1,6 +1,6 @@
 
 /**
- * @fy-/head v0.0.20
+ * @fy-/head v0.0.21
  * (c) 2022 Florian "Fy" Gasquez
  * Released under the MIT License
  */
@@ -100,7 +100,7 @@ class FyHead {
             return;
         const els = [];
         for (const key of Object.keys(_headTags)) {
-            if (key == "title") {
+            if (key == "title" && _headTags[key]) {
                 els.push(FyHead.createTitle(_headTags[key]));
             }
             else if (key == "links") {
@@ -140,6 +140,7 @@ class FyHead {
         });
     }
     static createTitle(title) {
+        console.log(title);
         return new El("title", [], "title", title);
     }
     static createScript(src, key, nonce, async = false) {

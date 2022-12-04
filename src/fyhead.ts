@@ -57,7 +57,8 @@ export class FyHead {
     for (const key of Object.keys(_headTags) as Array<
       keyof FyHeadObjectPlain
     >) {
-      if (key == "title") {
+      if (key == "title" && _headTags[key]) {
+        //bug?
         els.push(FyHead.createTitle(_headTags[key]));
       } else if (key == "links") {
         const links = _headTags[key];
@@ -103,6 +104,7 @@ export class FyHead {
     });
   }
   static createTitle(title: string) {
+    console.log(title);
     return new El("title", [], "title", title);
   }
   static createScript(
