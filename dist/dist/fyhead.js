@@ -1,6 +1,6 @@
 
 /**
- * @fy-/head v0.0.21
+ * @fy-/head v0.0.22
  * (c) 2022 Florian "Fy" Gasquez
  * Released under the MIT License
  */
@@ -142,7 +142,6 @@ class FyHead {
         });
     }
     static createTitle(title) {
-        console.log(title);
         return new El("title", [], "title", title);
     }
     static createScript(src, key, nonce, async = false) {

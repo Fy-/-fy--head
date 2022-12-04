@@ -104,7 +104,6 @@ export class FyHead {
     });
   }
   static createTitle(title: string) {
-    console.log(title);
     return new El("title", [], "title", title);
   }
   static createScript(
