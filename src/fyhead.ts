@@ -1,5 +1,5 @@
-import type { App, Ref, ShallowReactive, UnwrapRef } from "vue";
-import { reactive, shallowRef } from "vue";
+import type { App, Ref } from "vue";
+import { UnwrapRef } from "vue";
 import { generateUUID } from "./helpers";
 import { El, ElProperty } from "./element";
 
@@ -9,22 +9,22 @@ const __fyHeadCount__ = "fyhead:count";
 export type MaybeRef<T> = T | Ref<T>;
 
 export interface FyHeadObject {
-  title: MaybeRef<string>;
-  metas: MaybeRef<
+  title?: MaybeRef<string | undefined>;
+  metas?: MaybeRef<
     {
       name?: string;
       property?: string;
       content: string;
     }[]
   >;
-  links: MaybeRef<
+  links?: MaybeRef<
     {
       rel: string;
       href: string;
       key?: string;
     }[]
   >;
-  scripts: MaybeRef<
+  scripts?: MaybeRef<
     {
       src: string;
       id: string;
@@ -57,36 +57,39 @@ export class FyHead {
     for (const key of Object.keys(_headTags) as Array<
       keyof FyHeadObjectPlain
     >) {
-      if (key == "title" && _headTags[key]) {
-        //bug?
-        els.push(FyHead.createTitle(_headTags[key]));
+      if (key == "title") {
+        const title = _headTags[key];
+        if (title) els.push(FyHead.createTitle(title));
       } else if (key == "links") {
         const links = _headTags[key];
-        links.forEach((link) => {
-          els.push(FyHead.createLink(link.rel, link.href, link.key));
-        });
+        if (links)
+          links.forEach((link) => {
+            els.push(FyHead.createLink(link.rel, link.href, link.key));
+          });
       } else if (key == "metas") {
         const metas = _headTags[key];
-        metas.forEach((meta) => {
-          if (meta.property)
-            els.push(
-              FyHead.createMeta(meta.property, meta.content, "property")
-            );
-          else if (meta.name)
-            els.push(FyHead.createMeta(meta.name, meta.content, "name"));
-        });
+        if (metas)
+          metas.forEach((meta) => {
+            if (meta.property)
+              els.push(
+                FyHead.createMeta(meta.property, meta.content, "property")
+              );
+            else if (meta.name)
+              els.push(FyHead.createMeta(meta.name, meta.content, "name"));
+          });
       } else if (key == "scripts") {
         const scripts = _headTags[key];
-        scripts.forEach((script) => {
-          els.push(
-            FyHead.createScript(
-              script.src,
-              script.id,
-              script.nonce,
-              script.async
-            )
-          );
-        });
+        if (scripts)
+          scripts.forEach((script) => {
+            els.push(
+              FyHead.createScript(
+                script.src,
+                script.id,
+                script.nonce,
+                script.async
+              )
+            );
+          });
       }
     }
     this.addElements(els);

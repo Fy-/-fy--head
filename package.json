@@ -1,15 +1,15 @@
 {
     "name": "@fy-/head",
-    "version": "0.0.22",
+    "version": "0.0.23",
     "author": "Florian 'Fy' Gasquez <m@fy.to>",
-    "main": "dist/dist/fyhead.js",
-    "module": "dist/dist/fyhead.mjs",
-    "typings": "dist/dist/index.d.ts",
+    "main": "dist/fyhead.cjs.js",
+    "module": "dist/fyhead.es.js",
+    "typings": "dist/types/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/dist/fyhead.mjs",
-            "require": "./dist/dist/fyhead.js",
-            "types": "./dist/dist/index.d.ts"
+            "import": "./dist/fyhead.es.js",
+            "require": "./dist/fyhead.cjs.js",
+            "types": "./dist/types/index.d.ts"
         }
     },
     "peerDependencies": {
@@ -25,8 +25,8 @@
     },
     "homepage": "https://github.com/fyvue/head#readme",
     "scripts": {
-        "build": "rm -rf dist/ && rollup -c --bundleConfigAsCjs",
-        "lint:check": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore"
+      "build": "rm -rf dist/ && vite build --mode prod && vue-tsc --emitDeclarationOnly",
+      "lint:check": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore"
     },
 
     "devDependencies": {
@@ -48,6 +48,7 @@
         "vite": "^3.2.4",
         "vue": "^3.2.45",
         "@rollup/plugin-json": "^5.0.2",
-        "@rollup/plugin-replace": "^5.0.1"
+        "@rollup/plugin-replace": "^5.0.1",
+        "vue-tsc": "^1.0.9"
     }
 }

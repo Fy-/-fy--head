@@ -1,36 +1,33 @@
 {
-    "compilerOptions": {
-      "target": "esnext",
-      "module": "esnext",
-      "moduleResolution": "node",
-      "jsx": "preserve",
-      "sourceMap": true,
-      "resolveJsonModule": true,
-      "esModuleInterop": true,
-      "declaration": true,
-      "outDir": "dist",
-      "baseUrl": "packages/fy-head/",
-      "allowJs": false,
-      "strict": true,
-      "noUnusedLocals": false,
-      "lib": ["esnext", "dom"],
-      "allowSyntheticDefaultImports": true,
-      "types": ["vite/client", "@types/node"],
-      "removeComments": true,
-      "noImplicitAny": false,
-      "composite": true,
-      "paths": {
-        //"@karpeleslab/fyvue/*": [
-        //  "./*"
-        //],
-      }
-    },
-
-    "include": [
-      "src/*.ts",
-      "src/*.d.ts",
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": [
+      "esnext",
+      "dom"
     ],
-    "exclude": [
-      "node_modules",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "./dist/types",
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": [
+      "vite/client"
     ]
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+
+

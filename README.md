@@ -93,8 +93,6 @@ Simple head manager for Vue3/Vite (supports SSR) inspired by @vueuse/head.
 
 ## SSR Example
 
-export
-
     async function handleSSR(
         createApp: Function,
         cb: Function,
