@@ -1,5 +1,5 @@
 import { FyHead } from "./fyhead";
-import type { FyHeadLazy } from "./fyhead";
-declare const useFyHead: () => FyHead;
+import type { FyHeadObject, FyHeadObjectPlain, MaybeRef } from "./fyhead";
+declare const useFyHead: (_headTagsUser: MaybeRef<FyHeadObject>) => FyHead;
 declare const createFyHead: () => FyHead;
-export { useFyHead, createFyHead, FyHeadLazy };
+export { useFyHead, createFyHead, FyHeadObject, FyHeadObjectPlain };

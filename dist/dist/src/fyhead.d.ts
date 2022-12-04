@@ -1,6 +1,5 @@
-import type { App, Ref, ShallowReactive } from "vue";
+import type { App, Ref, UnwrapRef } from "vue";
 import { El } from "./element";
-type MaybeRef<T> = T | Ref<T>;
 export interface FyHeadLazy {
     name?: string;
     title?: string;
@@ -21,29 +20,44 @@ export interface FyHeadLazy {
     robots?: string;
     url?: string;
 }
+export type MaybeRef<T> = T | Ref<T>;
+export interface FyHeadObject {
+    title: MaybeRef<string>;
+    metas: MaybeRef<{
+        name?: string;
+        property?: string;
+        content: string;
+    }[]>;
+    links: MaybeRef<{
+        rel: string;
+        href: string;
+        key?: string;
+    }[]>;
+    scripts: MaybeRef<{
+        src: string;
+        id: string;
+        nonce?: string;
+        async?: boolean;
+    }[]>;
+}
+export type FyHeadObjectPlain = UnwrapRef<FyHeadObject>;
 export declare class FyHead {
-    elements: ShallowReactive<Map<string, El>>;
-    context: Map<string, string[]>;
-    currentContext?: string;
+    elements: Map<string, El>;
     constructor();
     static createHead(): FyHead;
-    setContext(): string;
-    clearContext(ctx: string): void;
-    addToContext(key: string): void;
     install(app: App): void;
-    reset(ctx: string): void;
-    addElement(el: El): void;
-    addTitle(title: string): void;
-    addScript(src: string, key?: string, nonce?: string, async?: boolean): void;
-    addLink(rel: string, href: string, key?: string | undefined): void;
-    addMeta(value: string, content: string, type?: "name" | "property"): void;
+    headToElements(_headTags: FyHeadObjectPlain): El[] | undefined;
+    removeHeadElements(els: El[]): void;
+    addElements(els: El[]): void;
+    static createTitle(title: string): El;
+    static createScript(src: string, key?: string, nonce?: string, async?: boolean): El;
+    static createLink(rel: string, href: string, key?: string | undefined): El;
+    static createMeta(value: string, content: string, type?: "name" | "property"): El;
     renderHeadToString(): {
         headTags: string;
         htmlAttrs: string;
         bodyAttrs: string;
         bodyTags: string;
     };
-    lazySeo(data: MaybeRef<FyHeadLazy>, reset?: boolean): void;
-    injectFyHead(): Element[];
+    updateDOM(): Element[];
 }
-export {};

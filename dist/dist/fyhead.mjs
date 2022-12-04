@@ -1,11 +1,11 @@
 
 /**
- * @fy-/head v0.0.17
+ * @fy-/head v0.0.18
  * (c) 2022 Florian "Fy" Gasquez
  * Released under the MIT License
  */
 
-import { reactive, shallowRef, inject, watchEffect, onBeforeUnmount } from 'vue';
+import { ref, inject, watchEffect, onBeforeUnmount } from 'vue';
 
 function generateUUID() {
     var d = new Date().getTime();
@@ -65,7 +65,12 @@ class El {
         return propertiesString.trim();
     }
     toString() {
-        return `<${this.tag} ${this.toStringProperties()}>${this.content ? this.content : ""}</${this.tag}>`;
+        if (this.tag == "script" && this.content == undefined) {
+            return `<${this.tag} ${this.toStringProperties()} />`;
+        }
+        else {
+            return `<${this.tag} ${this.toStringProperties()}>${this.content ? this.content : ""}</${this.tag}>`;
+        }
     }
     toDom(doc) {
         const el = doc.createElement(this.tag);
@@ -82,31 +87,12 @@ class El {
 const __fyHeadCount__ = "fyhead:count";
 class FyHead {
     elements;
-    context;
-    currentContext;
     constructor() {
-        this.elements = reactive(new Map());
-        this.context = new Map();
-        this.currentContext = generateUUID();
+        this.elements = new Map();
     }
     static createHead() {
         const head = new FyHead();
         return head;
-    }
-    setContext() {
-        this.currentContext = generateUUID();
-        return this.currentContext;
-    }
-    clearContext(ctx) {
-        this.currentContext = undefined;
-        this.context.delete(ctx);
-    }
-    addToContext(key) {
-        if (this.currentContext) {
-            if (!this.context.has(this.currentContext))
-                this.context.set(this.currentContext, []);
-            this.context.get(this.currentContext)?.push(key);
-        }
     }
     install(app) {
         if (app.config.globalProperties) {
@@ -114,25 +100,54 @@ class FyHead {
             app.provide("fyhead", this);
         }
     }
-    reset(ctx) {
+    headToElements(_headTags) {
+        if (!_headTags)
+            return;
+        const els = [];
+        for (const key of Object.keys(_headTags)) {
+            if (key == "title") {
+                els.push(FyHead.createTitle(_headTags[key]));
+            }
+            else if (key == "links") {
+                const links = _headTags[key];
+                links.forEach((link) => {
+                    els.push(FyHead.createLink(link.rel, link.href, link.key));
+                });
+            }
+            else if (key == "metas") {
+                const metas = _headTags[key];
+                metas.forEach((meta) => {
+                    if (meta.property)
+                        els.push(FyHead.createMeta(meta.property, meta.content, "property"));
+                    else if (meta.name)
+                        els.push(FyHead.createMeta(meta.name, meta.content, "name"));
+                });
+            }
+            else if (key == "scripts") {
+                const scripts = _headTags[key];
+                scripts.forEach((script) => {
+                    els.push(FyHead.createScript(script.src, script.id, script.nonce, script.async));
+                });
+            }
+        }
+        this.addElements(els);
+        return els;
+    }
+    removeHeadElements(els) {
         for (const el of this.elements.values()) {
-            if (this.context.get(ctx)?.includes(el.uuid))
+            if (els.find((item) => item.uuid === el.uuid))
                 this.elements.delete(el.key);
         }
-        this.clearContext(ctx);
     }
-    addElement(el) {
-        if (!this.currentContext) {
-            console.log("Warning: Trying to add element without context: ", el);
-            return;
-        }
-        this.addToContext(el.uuid);
-        this.elements.set(el.key, el);
+    addElements(els) {
+        els.forEach((el) => {
+            this.elements.set(el.key, el);
+        });
     }
-    addTitle(title) {
-        this.addElement(new El("title", [], "title", title));
+    static createTitle(title) {
+        return new El("title", [], "title", title);
     }
-    addScript(src, key, nonce, async = false) {
+    static createScript(src, key, nonce, async = false) {
         if (!key)
             key = generateUUID();
         const properties = [new ElProperty("id", key), new ElProperty("src", src)];
@@ -140,16 +155,16 @@ class FyHead {
             properties.push(new ElProperty("async"));
         if (nonce)
             properties.push(new ElProperty("nonce", nonce));
-        this.addElement(new El("script", properties, key));
+        return new El("script", properties, key);
     }
-    addLink(rel, href, key = undefined) {
+    static createLink(rel, href, key = undefined) {
         if (!key)
             key = generateUUID();
-        this.addElement(new El("link", [new ElProperty("rel", rel), new ElProperty("href", href)], key));
+        return new El("link", [new ElProperty("rel", rel), new ElProperty("href", href)], key);
     }
-    addMeta(value, content, type = "property") {
+    static createMeta(value, content, type = "property") {
         const key = value + "-" + type;
-        this.addElement(new El("meta", [new ElProperty(type, value), new ElProperty("content", content)], key));
+        return new El("meta", [new ElProperty(type, value), new ElProperty("content", content)], key);
     }
     renderHeadToString() {
         let headTags = "";
@@ -166,54 +181,7 @@ class FyHead {
             bodyTags,
         };
     }
-    lazySeo(data, reset = false) {
-        data = shallowRef(data);
-        if (data.value.url) {
-            this.addMeta("og:url", data.value.url);
-        }
-        if (data.value.canonical) {
-            this.addLink("canonical", data.value.canonical);
-        }
-        if (data.value.robots) {
-            this.addMeta("robots", data.value.robots, "name");
-        }
-        if (data.value.type) {
-            this.addMeta("og:type", data.value.type);
-        }
-        if (data.value.title) {
-            this.addTitle(data.value.title);
-        }
-        if (data.value.description) {
-            this.addMeta("og:description", data.value.description);
-            this.addMeta("twitter:description", data.value.description, "name");
-            this.addMeta("description", data.value.description, "name");
-            this.addMeta("og:description", data.value.description);
-        }
-        if (data.value.modified) {
-            this.addMeta("article:modified_time", data.value.modified);
-        }
-        if (data.value.published) {
-            this.addMeta("article:published_time", data.value.published);
-        }
-        if (data.value.imageWidth && data.value.imageHeight) {
-            this.addMeta("og:image:width", data.value.imageWidth);
-            this.addMeta("og:image:height", data.value.imageHeight);
-        }
-        if (data.value.imageType) {
-            this.addMeta("og:image:type", data.value.imageType);
-        }
-        if (data.value.image) {
-            this.addMeta("og:image", data.value.image);
-            this.addMeta("twitter:image", data.value.image, "name");
-        }
-        if (data.value.next) {
-            this.addLink("next", data.value.next);
-        }
-        if (data.value.prev) {
-            this.addLink("prev", data.value.prev);
-        }
-    }
-    injectFyHead() {
+    updateDOM() {
         const newElements = [];
         const oldElements = [];
         if (document && document.head) {
@@ -250,20 +218,28 @@ class FyHead {
     }
 }
 
-const useFyHead = () => {
+const __isBrowser__ = typeof window !== "undefined";
+const useFyHead = (_headTagsUser) => {
+    const _headTagsPlain = ref(_headTagsUser);
     const fyhead = inject("fyhead");
     if (!fyhead)
         throw new Error("Did you apply app.use(fyhead)?");
-    const __isBrowser__ = typeof window !== "undefined";
-    const ctx = fyhead.setContext();
     if (__isBrowser__) {
+        let _headTags = [];
         watchEffect(() => {
-            fyhead.injectFyHead();
+            _headTags = fyhead.headToElements(_headTagsPlain.value);
+            fyhead.updateDOM();
         });
         onBeforeUnmount(() => {
-            fyhead.reset(ctx);
-            fyhead.injectFyHead();
+            if (_headTags)
+                fyhead.removeHeadElements(_headTags);
+            fyhead.updateDOM();
         });
+    }
+    else {
+        const _headTags = fyhead.headToElements(_headTagsPlain.value);
+        if (_headTags)
+            fyhead.addElements(_headTags);
     }
     return fyhead;
 };

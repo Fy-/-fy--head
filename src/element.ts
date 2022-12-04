@@ -43,9 +43,13 @@ export class El {
     return propertiesString.trim();
   }
   toString() {
-    return `<${this.tag} ${this.toStringProperties()}>${
-      this.content ? this.content : ""
-    }</${this.tag}>`;
+    if (this.tag == "script" && this.content == undefined) {
+      return `<${this.tag} ${this.toStringProperties()} />`;
+    } else {
+      return `<${this.tag} ${this.toStringProperties()}>${
+        this.content ? this.content : ""
+      }</${this.tag}>`;
+    }
   }
   toDom(doc: Document) {
     const el = doc.createElement(this.tag);

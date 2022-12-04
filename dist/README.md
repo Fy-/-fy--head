@@ -1,6 +1,7 @@
+
 # @fy-/head
 
-Simple head manager for Vue3/Vite (supports SSR)
+Simple head manager for Vue3/Vite (supports SSR) inspired by @vueuse/head.
 
 ## Install
 
@@ -8,54 +9,86 @@ Simple head manager for Vue3/Vite (supports SSR)
 
 ## Load Vue Plugin
 
-    import { createFyHead } from  '@fy-/head';
-    export const createApp = (isSSR = false) => {
-     //...
-     const fyhead = createFyHead();
-     app.use(fyhead);
-     return { app, router, head: fyhead, pinia, ... }
-    }
+    import {
+        createFyHead
+    } from '@fy-/head';
+    export const createApp = async (isSSR = false) => {
+        //...
+        const fyhead = createFyHead();
+        app.use(fyhead);
+        //...
+        return {
+            app,
+            router,
+            head: fyhead,
+            pinia
+        };
+    };
 
-## "Lazy SEO" usage
+## Usage
 
-    import { useFyHead } from '@fy-/head';
-    const fyhead = useFyHead();
-    fyhead.lazySeo({
-      name: 'fyvue',
-      type: 'website',
-      image: 'https://fy-vue.com/fyvue.png',
-      title: 'My Super Website'
+    import {
+        useFyHead
+    } from '@fy-/head';
+
+    // Simple
+    useFyHead({
+        title: computed(() =>
+            computedRoute.value.meta.title ? computedRoute.value.meta.title : 'fyvue'
+        ),
+        metas: [{
+                property: 'og:type',
+                content: 'website',
+            },
+            {
+                property: 'og:image',
+                content: 'https://fy-vue.com/fyvue.png',
+            },
+            {
+                name: 'twitter:image',
+                content: 'https://fy-vue.com/fyvue.png',
+            },
+        ],
     });
 
-## Helpers usage
+    // Script example
+    useFyHead({
+        scripts: [{
+            src: 'https://js.stripe.com/v3',
+            id: 'stripe-script',
+        }, ],
+    });
 
-    import { useFyHead } from '@fy-/head';
-    const fyhead = useFyHead();
-    fyhead.addMeta('og:description', 'My super description');
-    fyhead.addMeta('description', 'My super website', 'name');
-    fyhead.addLink('next', 'https://mysuperwebsite.fy.to/?page=2');
-    fyhead.addTitle('My Super Website');
-    fyhead.addScript('https://js.stripe.com/v3', 'stripe-script');
+    // Fully reactive example (in this example "seo" is a Ref)
+    useFyHead({
+        title: computed(() => seo.value.title),
+        links: computed(() => {
+            const _res: Array < any > = [];
 
-## Element API usage
+            if (initial && getMode() == 'ssr') {
+                _res.push({
+                    rel: 'canonical',
+                    href: `${getUrl().scheme}://${getUrl().host}${getUrl().path}`,
+                    key: 'canonical',
+                });
+            }
+            if (seo.value.prev) {
+                _res.push({
+                    rel: 'prev',
+                    href: seo.value.prev,
+                    key: 'prev',
+                });
+            }
+            if (seo.value.next) {
+                _res.push({
+                    rel: 'next',
+                    href: seo.value.next,
+                    key: 'next',
+                });
+            }
+            return _res;
+        }),
+        //...
+    });
 
-    import { useFyHead, El, ElProperty } from '@fy-/head';
-    const fyhead = useFyHead();
-    fyhead.addElement(new El('title', [], 'title', 'My Super Website'));
-    fyhead.addElement(
-      new El(
-          'link',
-          [
-            new ElProperty('rel', 'next'),
-            new ElProperty('href', 'https://mysuperwebsite.fy.to/?page=2')
-        ],
-        'mySuperKey' // undefined will generate an uuid
-        )
-    );
 
-## SSR Usage
-
-    const { app, router, head, pinia } = await createApp(true);
-    //....
-    const { headTags, htmlAttrs, bodyAttrs, bodyTags } = head.renderHeadToString();
-    // @fy-/head only supports headTags at (htmlAttrs, bodyAttrs & bodyTags will be empty strings)
