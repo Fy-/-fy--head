@@ -1,6 +1,6 @@
 
 /**
- * @fy-/head v0.0.18
+ * @fy-/head v0.0.19
  * (c) 2022 Florian "Fy" Gasquez
  * Released under the MIT License
  */
@@ -67,12 +67,7 @@ class El {
         return propertiesString.trim();
     }
     toString() {
-        if (this.tag == "script" && this.content == undefined) {
-            return `<${this.tag} ${this.toStringProperties()} />`;
-        }
-        else {
-            return `<${this.tag} ${this.toStringProperties()}>${this.content ? this.content : ""}</${this.tag}>`;
-        }
+        return `<${this.tag} ${this.toStringProperties()}>${this.content ? this.content : ""}</${this.tag}>`;
     }
     toDom(doc) {
         const el = doc.createElement(this.tag);

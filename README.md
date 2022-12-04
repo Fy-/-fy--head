@@ -91,4 +91,27 @@ Simple head manager for Vue3/Vite (supports SSR) inspired by @vueuse/head.
         //...
     });
 
+## SSR Example
 
+export
+
+    async function handleSSR(
+        createApp: Function,
+        cb: Function,
+        options: SSROptions = {}
+    ) {
+        const {
+            app,
+            router,
+            head,
+            pinia
+        } = await createApp(true);
+        //...
+        const {
+            headTags,
+            htmlAttrs,
+            bodyAttrs,
+            bodyTags
+        } = head.renderHeadToString();
+        //... (fyhead onlysupports headTags for now, htmlAttrs,bodyAttrs & bodyTags are empty for now.
+    }

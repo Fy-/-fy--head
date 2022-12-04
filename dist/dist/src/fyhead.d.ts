@@ -1,25 +1,5 @@
 import type { App, Ref, UnwrapRef } from "vue";
 import { El } from "./element";
-export interface FyHeadLazy {
-    name?: string;
-    title?: string;
-    image?: string;
-    imageType?: string;
-    imageWidth?: string;
-    imageHeight?: string;
-    description?: string;
-    published?: string;
-    modified?: string;
-    keywords?: string;
-    type?: "blog" | "search" | "article" | "website";
-    searchAction?: string;
-    next?: string;
-    prev?: string;
-    canonical?: string;
-    locale?: string;
-    robots?: string;
-    url?: string;
-}
 export type MaybeRef<T> = T | Ref<T>;
 export interface FyHeadObject {
     title: MaybeRef<string>;
