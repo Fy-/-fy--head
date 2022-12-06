@@ -4,12 +4,14 @@
     "author": "Florian 'Fy' Gasquez <m@fy.to>",
     "main": "dist/fyhead.cjs.js",
     "module": "dist/fyhead.es.js",
-    "typings": "dist/types/index.d.ts",
+    "typings": "dist/index.d.ts",
+    "types": "dist/index.d.ts",
+    "type": "module",
     "exports": {
         ".": {
             "import": "./dist/fyhead.es.js",
             "require": "./dist/fyhead.cjs.js",
-            "types": "./dist/types/index.d.ts"
+            "types": "./dist/index.d.ts"
         }
     },
     "peerDependencies": {
@@ -25,7 +27,7 @@
     },
     "homepage": "https://github.com/fyvue/head#readme",
     "scripts": {
-      "build": "rm -rf dist/ && vite build --mode prod && vue-tsc --emitDeclarationOnly",
+      "build": "rm -rf dist/ && vite build --mode prod && vue-tsc  --declaration --emitDeclarationOnly --emitDeclarationOnly --outdir ./dist",
       "lint:check": "eslint src/ --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore"
     },
 
