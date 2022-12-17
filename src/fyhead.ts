@@ -141,7 +141,10 @@ export class FyHead {
     const key = value + "-" + type;
     return new El(
       "meta",
-      [new ElProperty(type, value), new ElProperty("content", content)],
+      [
+        new ElProperty(type, value),
+        new ElProperty("content", content.replaceAll('"', "&quot;")), // Do this better
+      ],
       key
     );
   }
