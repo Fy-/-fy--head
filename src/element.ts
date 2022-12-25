@@ -43,6 +43,9 @@ export class El {
     return propertiesString.trim();
   }
   toString() {
+    if (this.tag == "meta" || this.tag == "link") {
+      return `<${this.tag} ${this.toStringProperties()} />`;
+    }
     return `<${this.tag} ${this.toStringProperties()}>${
       this.content ? this.content : ""
     }</${this.tag}>`;
