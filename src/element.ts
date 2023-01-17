@@ -43,12 +43,15 @@ export class El {
     return propertiesString.trim();
   }
   toString() {
+    let properties = this.toStringProperties();
+    if (properties) properties = ` ${properties} `;
+
     if (this.tag == "meta" || this.tag == "link") {
-      return `<${this.tag} ${this.toStringProperties()} />`;
+      return `<${this.tag}${properties}/>`;
     }
-    return `<${this.tag} ${this.toStringProperties()}>${
-      this.content ? this.content : ""
-    }</${this.tag}>`;
+    return `<${this.tag}${properties}>${this.content ? this.content : ""}</${
+      this.tag
+    }>`;
   }
   toDom(doc: Document) {
     const el = doc.createElement(this.tag);
