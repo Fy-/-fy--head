@@ -150,9 +150,12 @@ export class FyHead {
   }
   renderHeadToString() {
     let headTags = "";
+    let headCount = 0;
     for (const el of this.elements.values()) {
       headTags += `${el.toString()}\n`;
+      headCount += 1;
     }
+    headTags += `<meta name="fyhead:count" content="${headCount.toString()}">\n`;
     const htmlAttrs = "";
     const bodyAttrs = "";
     const bodyTags = "";
