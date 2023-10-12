@@ -14,13 +14,21 @@ module.exports = {
     },
   },
   parser: "vue-eslint-parser",
-  extends: ["prettier"],
+  extends: [
+    "plugin:vue/vue3-essential",
+    "@vue/prettier",
+    "@vue/eslint-config-prettier",
+  ],
   parserOptions: {
     parser: "@typescript-eslint/parser",
   },
   rules: {
+    "vue/valid-v-for": "off",
+    "vue/html-indent": "off",
+    "vue/singleline-html-element-content-newline": 0,
+
     camelcase: ["error", { properties: "never" }],
-    "no-console": ["warn", { allow: ["error"] }],
+    //"no-console": ["warn", { allow: ["error"] }],
     "no-empty": ["error", { allowEmptyCatch: true }],
     "prefer-const": [
       "warn",

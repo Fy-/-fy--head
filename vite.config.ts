@@ -21,7 +21,7 @@ const config: UserConfig = {
               .toString()
               .replaceAll(
                 /"devDependencies": {([\S\s]+)}/gm,
-                '"devDependencies": {}\n}'
+                '"devDependencies": {}\n}',
               );
             _contents = _contents
               .toString()

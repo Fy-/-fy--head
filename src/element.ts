@@ -23,7 +23,7 @@ export class El {
     tag: ElTag,
     properties: ElProperty[] = [],
     key?: string,
-    content?: string
+    content?: string,
   ) {
     this.tag = tag;
     this.properties = properties;

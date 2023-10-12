@@ -22,6 +22,7 @@ export interface FyHeadObject {
       rel: string;
       href: string;
       key?: string;
+      hreflang?: string;
     }[]
   >;
   scripts?: MaybeRef<
@@ -64,7 +65,9 @@ export class FyHead {
         const links = _headTags[key];
         if (links)
           links.forEach((link) => {
-            els.push(FyHead.createLink(link.rel, link.href, link.key));
+            els.push(
+              FyHead.createLink(link.rel, link.href, link.key, link.hreflang),
+            );
           });
       } else if (key == "metas") {
         const metas = _headTags[key];
@@ -72,7 +75,7 @@ export class FyHead {
           metas.forEach((meta) => {
             if (meta.property)
               els.push(
-                FyHead.createMeta(meta.property, meta.content, "property")
+                FyHead.createMeta(meta.property, meta.content, "property"),
               );
             else if (meta.name)
               els.push(FyHead.createMeta(meta.name, meta.content, "name"));
@@ -86,8 +89,8 @@ export class FyHead {
                 script.src,
                 script.id,
                 script.nonce,
-                script.async
-              )
+                script.async,
+              ),
             );
           });
       }
@@ -113,7 +116,7 @@ export class FyHead {
     src: string,
     key?: string,
     nonce?: string,
-    async: boolean = false
+    async: boolean = false,
   ) {
     if (!key) key = generateUUID();
     const properties = [new ElProperty("id", key), new ElProperty("src", src)];
@@ -124,19 +127,21 @@ export class FyHead {
   static createLink(
     rel: string,
     href: string,
-    key: string | undefined = undefined
+    key: string | undefined = undefined,
+    hreflang?: string,
   ) {
     if (!key) key = generateUUID();
-    return new El(
-      "link",
-      [new ElProperty("rel", rel), new ElProperty("href", href)],
-      key
-    );
+    const propreties = [
+      new ElProperty("rel", rel),
+      new ElProperty("href", href),
+    ];
+    if (hreflang) propreties.push(new ElProperty("hreflang", hreflang));
+    return new El("link", propreties, key);
   }
   static createMeta(
     value: string,
     content: string,
-    type: "name" | "property" = "property"
+    type: "name" | "property" = "property",
   ) {
     const key = value + "-" + type;
     return new El(
@@ -145,7 +150,7 @@ export class FyHead {
         new ElProperty(type, value),
         new ElProperty("content", content.replaceAll('"', "&quot;")), // Do this better
       ],
-      key
+      key,
     );
   }
   renderHeadToString() {
@@ -169,7 +174,7 @@ export class FyHead {
     const oldElements: Element[] = [];
     if (document && document.head) {
       let headCountEl = document.querySelector(
-        `meta[name="${__fyHeadCount__}"]`
+        `meta[name="${__fyHeadCount__}"]`,
       );
       const headCount = headCountEl
         ? Number(headCountEl.getAttribute("content"))
