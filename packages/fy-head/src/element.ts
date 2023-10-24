@@ -1,4 +1,4 @@
-import { generateUUID } from "./helpers";
+import { generateUUID, htmlEscape } from "./helpers";
 
 export class ElProperty {
   key: string;
@@ -8,7 +8,7 @@ export class ElProperty {
     this.value = value;
   }
   toString() {
-    return this.value ? `${this.key}="${this.value}"` : this.key;
+    return this.value ? `${this.key}="${htmlEscape(this.value)}"` : this.key;
   }
 }
 type ElTag = "meta" | "link" | "script" | "title";
