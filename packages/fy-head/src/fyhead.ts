@@ -31,6 +31,7 @@ export interface FyHeadObject {
       id: string;
       nonce?: string;
       async?: boolean;
+      crossorigin?: string;
     }[]
   >;
 }
@@ -90,6 +91,7 @@ export class FyHead {
                 script.id,
                 script.nonce,
                 script.async,
+                script.crossorigin,
               ),
             );
           });
@@ -117,11 +119,14 @@ export class FyHead {
     key?: string,
     nonce?: string,
     async: boolean = false,
+    crossorigin?: string,
   ) {
     if (!key) key = generateUUID();
     const properties = [new ElProperty("id", key), new ElProperty("src", src)];
     if (async) properties.push(new ElProperty("async"));
     if (nonce) properties.push(new ElProperty("nonce", nonce));
+    if (crossorigin)
+      properties.push(new ElProperty("crossorigin", crossorigin));
     return new El("script", properties, key);
   }
   static createLink(
