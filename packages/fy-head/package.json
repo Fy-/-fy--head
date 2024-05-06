@@ -1,6 +1,6 @@
 {
     "name": "@fy-/head",
-    "version": "0.0.40",
+    "version": "0.0.43",
     "author": "Florian 'Fy' Gasquez <m@fy.to>",
     "main": "dist/fyhead.cjs.js",
     "module": "dist/fyhead.es.js",

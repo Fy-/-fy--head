@@ -38,7 +38,9 @@ export class El {
   toStringProperties() {
     let propertiesString = "";
     for (const property of this.properties) {
-      propertiesString += ` ${property.toString()}`;
+      if (this.tag != "script" || property.key != "id") {
+        propertiesString += ` ${property.toString()}`;
+      }
     }
     return propertiesString.trim();
   }
@@ -56,7 +58,9 @@ export class El {
   toDom(doc: Document) {
     const el = doc.createElement(this.tag);
     for (const property of this.properties) {
-      el.setAttribute(property.key, property.value ? property.value : "");
+      if (this.tag != "script" || property.key != "id") {
+        el.setAttribute(property.key, property.value ? property.value : "");
+      }
     }
     if (this.content) {
       el.innerText = this.content;
